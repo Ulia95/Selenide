@@ -17,29 +17,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest {
 
-    private WebDriver driver;
-
-    @BeforeAll
-    static void setUpAll() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeEach
-    void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-    }
-
-    @AfterEach
-    void tearsDown() {
-        driver.quit();
-        driver = null;
-    }
-
-    @Test
+        @Test
     void test(){
         Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
