@@ -1,10 +1,15 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 
@@ -12,17 +17,32 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest {
 
-    WebDriver driver;
+    private WebDriver driver;
+
+    @BeforeAll
+    static void setUpAll() {
+        WebDriverManager.chromedriver().setup();
+    }
 
     @BeforeEach
-    void  setupTest(){
-        Selenide.open("http://localhost:9999");
+    void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
+    }
+
+    @AfterEach
+    void tearsDown() {
+        driver.quit();
+        driver = null;
     }
 
     @Test
     void test(){
-        //Configuration.holdBrowserOpen=true;
-       // open("http://localhost:9999");
+        Configuration.holdBrowserOpen=true;
+        open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
         $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
