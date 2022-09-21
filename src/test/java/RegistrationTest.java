@@ -12,34 +12,39 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest {
 
+
     @Test
-    void test() {
+    void SuccessfulCardBooking() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иван");
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
         $(".button__content").click();
         $x("//div[text()= 'Успешно!']").should(Condition.visible, Duration.ofSeconds(15));
-        $x("//div[contains(text(), 'Встреча успешно забронирована')]").should(Condition.visible, Duration.ofSeconds(15));
+        $x("//div[contains(text(), 'Встреча успешно забронирована')]").shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15));
 
     }
 
     @Test
-    void test2() {
+    void CityNotValid() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Нью-Йорк");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("25.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иван");
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -48,12 +53,13 @@ public class RegistrationTest {
     }
 
     @Test
-    void test3() {
+    void InvalidFirstAndLastName() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Ivanov Ivan");
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -63,12 +69,13 @@ public class RegistrationTest {
     }
 
     @Test
-    void test4() {
+    void InvalidFirstAndLastName2() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов,Иавн");
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -77,12 +84,13 @@ public class RegistrationTest {
 
     }
     @Test
-    void test5() {
+    void InvalidPhoneNumber() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иавн");
         $("[data-test-id=\"phone\"] input").setValue("89192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -92,12 +100,13 @@ public class RegistrationTest {
     }
 
     @Test
-    void test6() {
+    void InvalidPhoneNumber2() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("19.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иавн");
         $("[data-test-id=\"phone\"] input").setValue("+7919235698.");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -106,12 +115,13 @@ public class RegistrationTest {
 
     }
     @Test
-    void test7() {
+    void CityInputField() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").hover();
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("25.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иван");
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -121,12 +131,13 @@ public class RegistrationTest {
     }
 
     @Test
-    void test8() {
+    void NameInputField() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("25.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").hover();
         $("[data-test-id=\"phone\"] input").setValue("+79192356987");
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
@@ -136,12 +147,13 @@ public class RegistrationTest {
     }
 
     @Test
-    void test9() {
+    void PhoneInputField() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         $("[placeholder=\"Город\"]").setValue("Москва");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue("25.09.2022");
+        String planningDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyy"));
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input").setValue("Иванов Иван");
         $("[data-test-id=\"phone\"] input").hover();
         $x("//span[contains(text(), 'Я соглашаюсь с условиями обработки')]").click();
